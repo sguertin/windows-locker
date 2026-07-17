@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LockerService", "LockerService\LockerService.csproj", "{F290A81F-79C7-4B9B-A858-D846A3BC0DDE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishProfiles", "PublishProfiles", "{6497C36B-1E91-4AD3-8107-802AC16190BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,6 +16,6 @@ Global
 		{F290A81F-79C7-4B9B-A858-D846A3BC0DDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(RiderSharedRunConfigurations) = postSolution
-		File = .deploy\PublishFile\PublishFile.run.xml
+		File = PublishProfiles\File.run.xml
 	EndGlobalSection
 EndGlobal
