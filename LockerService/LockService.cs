@@ -3,10 +3,10 @@ using System.Runtime.InteropServices;
 namespace LockerService;
 
 
-public class LockService
+public partial class LockService
 {
-    [DllImport("user32")]
-    private static extern void LockWorkStation();
+    [LibraryImport("user32")]
+    private static partial void LockWorkStation();
 
     public void Lock()
     {

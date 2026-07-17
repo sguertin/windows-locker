@@ -1,20 +1,19 @@
 using static LockerService.Constants;
 namespace LockerService;
 
-public class Worker : BackgroundService
+public class Worker(IConfiguration configuration) : BackgroundService
 {
     private readonly LockService _lockService = new ();
     private readonly LogService _log = new (APPLICATION_NAME);
-    private readonly ConfigurationService _configService = new (ConfigFilePath);
+    private readonly string _time = configuration["Time"] ?? DEFAULT_TIME;
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         try
         {
-            var config = await _configService.GetConfig(stoppingToken);
             while (!stoppingToken.IsCancellationRequested)
             {
                 var now = DateTime.Now;
-                var lockTime = ConvertTimeValue(config.Time);
+                var lockTime = ConvertTimeValue(_time);
                 var timeSpan = now.Subtract(lockTime);
                 if (timeSpan.TotalMinutes is > 0.0 and < 1.0)
                 {
