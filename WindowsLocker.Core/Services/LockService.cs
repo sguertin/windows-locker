@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace WindowsLocker.Service.Services;
+namespace WindowsLocker.Core.Services;
 
 
 public partial class LockService : ILockService

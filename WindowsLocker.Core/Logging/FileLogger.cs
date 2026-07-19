@@ -1,5 +1,6 @@
+using Microsoft.Extensions.Logging;
 using static WindowsLocker.Service.Constants;
-namespace WindowsLocker.Service.Logging;
+namespace WindowsLocker.Core.Logging;
 
 public class FileLogger(string name, string logFilePath) : ILogger
 {

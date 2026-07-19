@@ -1,4 +1,4 @@
-namespace WindowsLocker.Service.Services;
+namespace WindowsLocker.Core.Services;
 
 public interface ILockService
 {

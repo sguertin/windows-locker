@@ -1,7 +1,8 @@
 using System.Collections.Concurrent;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace WindowsLocker.Service.Logging;
+namespace WindowsLocker.Core.Logging;
 
 public sealed class FileLoggerProvider(IOptions<FileLoggerOptions> options) : ILoggerProvider
 {

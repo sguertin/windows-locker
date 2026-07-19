@@ -1,8 +1,8 @@
-using WindowsLocker.Service.Services;
+using WindowsLocker.Core.Services;
 using static WindowsLocker.Service.Constants;
 namespace WindowsLocker.Service;
 
-public class Worker(IWorkerService workerService, ILogger log) : BackgroundService
+public class Worker(IWorkerService workerService, ILogger<Worker> log) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -10,7 +10,15 @@ public class Worker(IWorkerService workerService, ILogger log) : BackgroundServi
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await workerService.DoWorkAsync(stoppingToken);
+                var result = workerService.DoWork();
+                if (result) // true means it triggered
+                {
+                    await Task.Delay(SLEEP_TIME_OUT * 60, stoppingToken);
+                } 
+                else
+                {
+                    await Task.Delay(SLEEP_TIME_OUT, stoppingToken);
+                }
             }
         }
         catch (OperationCanceledException)

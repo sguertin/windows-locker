@@ -1,9 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
-using WindowsLocker.Service.Logging;
+using Microsoft.Extensions.Logging;
+using WindowsLocker.Core.Logging;
 
-namespace WindowsLocker.Service.Extensions;
+namespace WindowsLocker.Core.Extensions;
 
 public static class LoggingExtensions
 {
