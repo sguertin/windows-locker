@@ -1,9 +1,9 @@
 using System.Runtime.InteropServices;
 
-namespace LockerService;
+namespace WindowsLocker.Service.Services;
 
 
-public partial class LockService
+public partial class LockService : ILockService
 {
     [LibraryImport("user32")]
     private static partial void LockWorkStation();

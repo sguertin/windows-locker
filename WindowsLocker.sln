@@ -1,8 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LockerService", "LockerService\LockerService.csproj", "{F290A81F-79C7-4B9B-A858-D846A3BC0DDE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsLocker.Service", "WindowsLocker.Service\WindowsLocker.Service.csproj", "{F290A81F-79C7-4B9B-A858-D846A3BC0DDE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishProfiles", "PublishProfiles", "{6497C36B-1E91-4AD3-8107-802AC16190BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsLocker.Tests", "WindowsLocker.Tests\WindowsLocker.Tests.csproj", "{9A3E411D-72CA-4FD4-B22A-7CBE910AA636}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,8 +16,13 @@ Global
 		{F290A81F-79C7-4B9B-A858-D846A3BC0DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F290A81F-79C7-4B9B-A858-D846A3BC0DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F290A81F-79C7-4B9B-A858-D846A3BC0DDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A3E411D-72CA-4FD4-B22A-7CBE910AA636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A3E411D-72CA-4FD4-B22A-7CBE910AA636}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A3E411D-72CA-4FD4-B22A-7CBE910AA636}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A3E411D-72CA-4FD4-B22A-7CBE910AA636}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(RiderSharedRunConfigurations) = postSolution
 		File = PublishProfiles\File.run.xml
+		File = .deploy\PublishFile\PublishFile.run.xml
 	EndGlobalSection
 EndGlobal

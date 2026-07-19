@@ -4,7 +4,7 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 .idea/
+.vscode/
 
 publish/
-
 *.kate-swp

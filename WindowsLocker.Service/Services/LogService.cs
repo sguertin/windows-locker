@@ -1,4 +1,4 @@
-namespace LockerService;
+namespace WindowsLocker.Service.Services;
 
 public class LogService(string applicationName)
 {

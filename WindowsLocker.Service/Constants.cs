@@ -1,4 +1,4 @@
-namespace LockerService;
+namespace WindowsLocker.Service;
 
 public static class Constants
 {
