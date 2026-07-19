@@ -1,9 +1,15 @@
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using static WindowsLocker.Service.Constants;
 namespace WindowsLocker.Core.Services;
 
-public class WorkerService(IConfiguration configuration, ILogger<WorkerService>? log, ILockService lockService, IDateService dateService) : IWorkerService
+public class WorkerService(
+    IConfiguration configuration,
+    ILogger<WorkerService>? log,
+    ILockService lockService,
+    IDateService dateService,
+    ITimeService timeService) : IWorkerService
 {
     private readonly string _time = configuration["Time"] ?? DEFAULT_TIME;
     private const double MINUTE_BOTTOM_THRESHOLD = 0.0;
@@ -12,50 +18,18 @@ public class WorkerService(IConfiguration configuration, ILogger<WorkerService>?
     public bool DoWork()
     {
         var now = dateService.Now();
-        var lockTime = ConvertTimeValue(_time);
+        var lockTime = timeService.ConvertTimeValue(_time);
         var timeSpan = now.Subtract(lockTime);
-        log?.LogInformation("IS {TimeSpanTotalMinutes} BETWEEN {MinuteBottomThreshold} AND {MinuteUpperThreshold}?",
-            timeSpan.TotalMinutes, MINUTE_BOTTOM_THRESHOLD, MINUTE_UPPER_THRESHOLD);
-        if (timeSpan.TotalMinutes is >= MINUTE_BOTTOM_THRESHOLD and <= MINUTE_UPPER_THRESHOLD)
+        if (log!.IsEnabled(LogLevel.Information))
         {
-            lockService.Lock();
-            return true;
+            log.LogInformation("IS {TimeSpanTotalMinutes} BETWEEN {MinuteBottomThreshold} AND {MinuteUpperThreshold}?",
+                timeSpan.TotalMinutes, MINUTE_BOTTOM_THRESHOLD, MINUTE_UPPER_THRESHOLD);
         }
-        return false;
-    }
-
-    public DateTime ConvertTimeValue(string timeValue)
-    {
-        var now = dateService.Now();
-        try
+        if (timeSpan.TotalMinutes is < MINUTE_BOTTOM_THRESHOLD or > MINUTE_UPPER_THRESHOLD)
         {
-            var timeParts = timeValue.Split(':');
-            var hour = int.Parse(timeParts[0]);
-            timeParts = timeParts[1].Split(' ');
-            var minute = int.Parse(timeParts[0]);
-            var meridian = timeParts[1];
-            if (meridian.Equals("PM", StringComparison.CurrentCultureIgnoreCase) && hour != 12)
-            {
-                hour += 12;
-            }
-            else if (meridian.Equals("AM", StringComparison.CurrentCultureIgnoreCase) && hour == 12)
-            {
-                hour = 0;
-            }
-            return new DateTime(now.Year, now.Month, now.Day, hour, minute, 0);
+            return false;
         }
-        catch (FormatException ex)
-        {
-            log?.LogWarning(
-                "The time provided: \"{TimeValue}\", is not a valid time value. Should take the form of hh:mm AM/PM e.g. 5:30 PM, 12:00 PM, 10:45 AM.",
-                timeValue);
-            log?.LogError(ex, "{Message}", ex?.Message ?? "A formatting error occurred.");
-            return new DateTime(now.Year, now.Month, now.Day, DEFAULT_HOUR, DEFAULT_MINUTE, 0);
-        }
-        catch (Exception ex)
-        {
-            log?.LogCritical(ex, ex.Message);
-            throw;
-        }
+        lockService.Lock();
+        return true;
     }
 }

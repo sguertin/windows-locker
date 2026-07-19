@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 using static WindowsLocker.Service.Constants;
 namespace WindowsLocker.Core.Logging;
 
-public class FileLogger(string name, string logFilePath) : ILogger
+public class FileLogger(string name, string logFilePath) : BaseLogger, ILogger
 {
     private string LogFilePath => Path.Join(logFilePath, $"{APPLICATION_NAME}-{DateTime.Now:yyyy-MM-dd}.log");
     
@@ -31,19 +31,5 @@ public class FileLogger(string name, string logFilePath) : ILogger
         var contents = $"[{DateTime.Now:u}][{APPLICATION_NAME}][{name}][{GetLogLevel(logLevel)}]" +
                       $"\t{formatter(state, exception)}" + Environment.NewLine; 
         File.AppendAllText(LogFilePath, contents);
-    }
-
-    private static string GetLogLevel(LogLevel logLevel)
-    {
-        return logLevel switch
-        {
-            LogLevel.Critical => "[FATAL]",
-            LogLevel.Debug => "[DEBUG]",
-            LogLevel.Error => "[ERROR]",
-            LogLevel.Information => "[INFO]",
-            LogLevel.Trace => "[TRACE]",
-            LogLevel.Warning => "[WARN]",
-            _ => string.Empty
-        };
     }
 }

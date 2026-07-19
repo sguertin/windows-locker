@@ -2,12 +2,14 @@ using WindowsLocker.Core.Services;
 using static WindowsLocker.Service.Constants;
 namespace WindowsLocker.Service;
 
-public class Worker(IWorkerService workerService, ILogger<Worker> log) : BackgroundService
+public class Worker(IServiceScopeFactory serviceScopeFactory, ILogger<Worker> log) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         try
         {
+            using var scope = serviceScopeFactory.CreateScope();
+            var workerService = scope.ServiceProvider.GetRequiredService<IWorkerService>();
             while (!stoppingToken.IsCancellationRequested)
             {
                 var result = workerService.DoWork();
