@@ -2,10 +2,8 @@ using WindowsLocker.Service.Services;
 using static WindowsLocker.Service.Constants;
 namespace WindowsLocker.Service;
 
-public class Worker(IWorkerService workerService) : BackgroundService
+public class Worker(IWorkerService workerService, ILogger log) : BackgroundService
 {
-    private readonly LogService _log = new (APPLICATION_NAME);
-    
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         try
@@ -21,7 +19,7 @@ public class Worker(IWorkerService workerService) : BackgroundService
         }
         catch (Exception ex)
         {
-            _log.LogFatal(ex, ex.Message);
+            log.LogCritical(ex, ex.Message);
             Environment.Exit(1);
         }
     }
