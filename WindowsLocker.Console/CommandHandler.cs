@@ -21,14 +21,14 @@ public class CommandHandler(
                 lockService!.Lock();
                 break;
             case Commands.TIMER:
-                var timerResult = timeService!.ConvertTimeValue(time);
+                var timerResult = timeService.ConvertTimeValue(time);
                 if (log.IsEnabled(LogLevel.Information))
                 {
                     log.LogInformation("ConvertTimeValue: {Result:t}", timerResult);
                 }
                 break;
             case Commands.WORKER:
-                var workerResult = workerService!.DoWork();
+                var workerResult = workerService.DoWork();
                 if (workerResult && log.IsEnabled(LogLevel.Information))
                 {
                     log.LogInformation("workerService.DoWork: TRUE");
