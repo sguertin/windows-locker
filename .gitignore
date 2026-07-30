@@ -5,6 +5,7 @@ riderModule.iml
 /_ReSharper.Caches/
 .idea/
 .vscode/
+.vs/
 
 publish/
 *.kate-swp
