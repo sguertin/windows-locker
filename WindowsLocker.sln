@@ -32,5 +32,6 @@ Global
 		{C1BC9DCA-692F-470C-AF41-DA98486737EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(RiderSharedRunConfigurations) = postSolution
+		File = WindowsLocker.Service\Properties\PublishProfiles\Windows.run.xml
 	EndGlobalSection
 EndGlobal
