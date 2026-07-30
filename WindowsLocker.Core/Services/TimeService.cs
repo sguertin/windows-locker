@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
+using static WindowsLocker.Core.Constants;
 
-using static WindowsLocker.Service.Constants;
 namespace WindowsLocker.Core.Services;
 
 public class TimeService(ILogger<TimeService> log, IDateService dateService) : ITimeService
@@ -15,12 +15,14 @@ public class TimeService(ILogger<TimeService> log, IDateService dateService) : I
             {
                 throw new FormatException();
             }
+
             var hour = int.Parse(timeParts[0]);
             timeParts = timeParts[1].Split(' ');
             if (timeParts.Length != 2)
             {
                 throw new FormatException();
             }
+
             var minute = int.Parse(timeParts[0]);
             var meridian = timeParts[1];
             if (meridian.Equals("PM", StringComparison.CurrentCultureIgnoreCase) && hour != 12)
@@ -31,15 +33,16 @@ public class TimeService(ILogger<TimeService> log, IDateService dateService) : I
             {
                 hour = 0;
             }
-            return new DateTime(now.Year, now.Month, now.Day, hour, minute, 0);
+
+            return new DateTime(now.Year, now.Month, now.Day, hour, minute, DEFAULT_SECOND);
         }
         catch (FormatException ex)
         {
             log.LogWarning(
                 "The time provided: \"{TimeValue}\", is not a valid time value. Should take the form of hh:mm AM/PM e.g. 5:30 PM, 12:00 PM, 10:45 AM.",
                 timeValue);
-            log.LogError(ex, "{Message}", ex?.Message ?? "A formatting error occurred.");
-            return new DateTime(now.Year, now.Month, now.Day, DEFAULT_HOUR, DEFAULT_MINUTE, 0);
+            log.LogError(ex, "{Message}", ex.Message);
+            return new DateTime(now.Year, now.Month, now.Day, DEFAULT_HOUR, DEFAULT_MINUTE, DEFAULT_SECOND);
         }
         catch (Exception ex)
         {

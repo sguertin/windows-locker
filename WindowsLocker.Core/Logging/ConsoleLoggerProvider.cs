@@ -8,7 +8,7 @@ public sealed class ConsoleLoggerProvider(IOptions<ConsoleLoggerOptions> options
 {
     private readonly ConcurrentDictionary<string, ConsoleLogger> _loggers =
         new(StringComparer.OrdinalIgnoreCase);
-    
+
     public ILogger CreateLogger(string categoryName) =>
         _loggers.GetOrAdd(categoryName, _ => new ConsoleLogger(options));
 

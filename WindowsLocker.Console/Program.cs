@@ -4,17 +4,17 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using WindowsLocker.Console;
 using WindowsLocker.Core.Extensions;
+using static WindowsLocker.Core.Constants;
 
 var command = string.Empty;
-var time = string.Empty;
+var time = DEFAULT_TIME_LIMIT;
 var logLevel = string.Empty;
 try
 {
-    var commandArgs = CommandLineArgumentParser.Handle(args) 
-                      ?? throw new ArgumentOutOfRangeException($"args");
-    command = commandArgs?.Command?.ToLowerInvariant() ?? string.Empty;
-    time = commandArgs?.Time ?? string.Empty;
-    logLevel = commandArgs?.LogLevel ?? "Information";
+    var commandArgs = CommandLineArgumentParser.Handle(args);
+    command = commandArgs.Command.ToLowerInvariant();
+    time = commandArgs.TimeLimit;
+    logLevel = commandArgs.LogLevel;
 }
 catch (ArgumentOutOfRangeException ex)
 {
@@ -26,7 +26,7 @@ var builder = Host.CreateApplicationBuilder(args);
 builder.Configuration["Logging:LogLevel:Default"] = logLevel;
 builder.AddWindowsLockerConsole();
 
-var configuration = ConfigFactory.CreateConfiguration(time);
+var configuration = ConfigFactory.CreateConfiguration(time.ToString());
 builder.Configuration.AddConfiguration(configuration);
 builder.Services.AddScoped<ICommandHandler, CommandHandler>();
 
@@ -36,11 +36,12 @@ var commandHandler = host.Services.GetService(typeof(ICommandHandler)) as IComma
 if (log!.IsEnabled(LogLevel.Information))
 {
     log.LogInformation("COMMAND: '{Command}'", command.ToLowerInvariant());
-    log.LogInformation("TIME: '{Time}'", time.ToLowerInvariant());
+    log.LogInformation("TIME: '{Time}'", time);
 }
+
 try
 {
-    commandHandler!.RunCommand(command, time);
+    commandHandler!.RunCommand(command, time.ToString());
     Environment.Exit(0);
 }
 catch (Exception ex)

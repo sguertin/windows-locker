@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using static WindowsLocker.Service.Constants;
+using static WindowsLocker.Core.Constants;
 namespace WindowsLocker.Core.Services;
 
 public class WorkerService(

@@ -3,21 +3,24 @@ using Microsoft.Extensions.Options;
 
 namespace WindowsLocker.Core.Logging;
 
-public class ConsoleLogger(IOptions<ConsoleLoggerOptions> options) : BaseLogger, ILogger 
+public class ConsoleLogger(IOptions<ConsoleLoggerOptions> options) : BaseLogger, ILogger
 {
     private readonly ConsoleLoggerOptions _options = options.Value;
-    private LogLevel MinimumLevel => Enum.TryParse<LogLevel>(_options.LogLevel, out var minimumLevel) ? minimumLevel : LogLevel.Information; 
-    
+
+    private LogLevel MinimumLevel => Enum.TryParse<LogLevel>(_options.LogLevel, out var minimumLevel)
+        ? minimumLevel
+        : LogLevel.Information;
+
     public IDisposable BeginScope<TState>(TState state) where TState : notnull
     {
         return null!;
     }
-    
+
     public bool IsEnabled(LogLevel logLevel)
     {
         return _options.Enabled && logLevel >= MinimumLevel;
     }
-    
+
     public void Log<TState>(
         LogLevel logLevel,
         EventId eventId,
@@ -31,7 +34,7 @@ public class ConsoleLogger(IOptions<ConsoleLoggerOptions> options) : BaseLogger,
         }
 
         var contents = $"[{DateTime.Now:u}][{GetLogLevel(logLevel)}]" +
-                       $"\t{formatter(state, exception)}" + Environment.NewLine; 
+                       $"\t{formatter(state, exception)}" + Environment.NewLine;
         Console.WriteLine(contents);
-    }    
+    }
 }

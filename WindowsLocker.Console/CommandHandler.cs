@@ -18,7 +18,8 @@ public class CommandHandler(
                 {
                     log.LogInformation("Locking system now...");
                 }
-                lockService!.Lock();
+
+                lockService.Lock();
                 break;
             case Commands.TIMER:
                 var timerResult = timeService.ConvertTimeValue(time);
@@ -39,6 +40,7 @@ public class CommandHandler(
                     log.LogInformation("workerService.DoWork: FALSE");
                     log.LogInformation("No Lock Triggered!");
                 }
+
                 break;
             default:
                 throw new ArgumentOutOfRangeException(command);

@@ -1,5 +1,5 @@
 using WindowsLocker.Core.Services;
-using static WindowsLocker.Service.Constants;
+using static WindowsLocker.Core.Constants;
 namespace WindowsLocker.Service;
 
 public class Worker(IServiceScopeFactory serviceScopeFactory, ILogger<Worker> log) : BackgroundService

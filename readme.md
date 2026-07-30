@@ -47,8 +47,9 @@ to [Build and Publish](#### Build and Publish).
 This will build and publish the project into a publish folder.
 
 ```powershell
-> dotnet build WindowsLocker.sln;
-> dotnet publish -p:PublishProfile=File;
+> cd WindowsLocker.Service;
+> dotnet build -c Release  ;
+> dotnet publish -c Release /p:PublishDir=publish;
 ```
 
 ### Configuration

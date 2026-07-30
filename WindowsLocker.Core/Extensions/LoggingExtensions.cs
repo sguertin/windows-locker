@@ -8,42 +8,39 @@ namespace WindowsLocker.Core.Extensions;
 
 public static class LoggingExtensions
 {
-    extension(ILoggingBuilder builder)
+    public static ILoggingBuilder AddFileLogger(this ILoggingBuilder builder)
     {
-        public ILoggingBuilder AddFileLogger()
-        {
-            builder.AddConfiguration();
-            builder.Services.TryAddEnumerable(
-                ServiceDescriptor.Singleton<ILoggerProvider, FileLoggerProvider>()
-            );
-            LoggerProviderOptions.RegisterProviderOptions<FileLoggerOptions, FileLoggerProvider>(builder.Services);
-            return builder;
-        }
+        builder.AddConfiguration();
+        builder.Services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<ILoggerProvider, FileLoggerProvider>()
+        );
+        LoggerProviderOptions.RegisterProviderOptions<FileLoggerOptions, FileLoggerProvider>(builder.Services);
+        return builder;
+    }
 
-        public ILoggingBuilder AddFileLogger(Action<FileLoggerOptions> configure)
-        {
-            builder.AddFileLogger();
-            builder.Services.Configure(configure);
-            return builder;
-        }
+    public static ILoggingBuilder AddFileLogger(this ILoggingBuilder builder, Action<FileLoggerOptions> configure)
+    {
+        builder.AddFileLogger();
+        builder.Services.Configure(configure);
+        return builder;
+    }
 
-        public ILoggingBuilder AddConsoleLogger()
-        {
-            builder.AddConfiguration();
-            builder.Services.TryAddEnumerable(
-                ServiceDescriptor.Singleton<ILoggerProvider, ConsoleLoggerProvider>());
+    public static ILoggingBuilder AddConsoleLogger(this ILoggingBuilder builder)
+    {
+        builder.AddConfiguration();
+        builder.Services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<ILoggerProvider, ConsoleLoggerProvider>());
 
-            LoggerProviderOptions.RegisterProviderOptions
-                <ConsoleLoggerOptions, ConsoleLoggerProvider>(builder.Services);
+        LoggerProviderOptions.RegisterProviderOptions
+            <ConsoleLoggerOptions, ConsoleLoggerProvider>(builder.Services);
 
-            return builder;
-        }
-        
-        public ILoggingBuilder AddConsoleLogger(Action<ConsoleLoggerOptions> configure)
-        {
-            builder.AddConsoleLogger();
-            builder.Services.Configure(configure);
-            return builder;
-        }
+        return builder;
+    }
+
+    public static ILoggingBuilder AddConsoleLogger(this ILoggingBuilder builder, Action<ConsoleLoggerOptions> configure)
+    {
+        builder.AddConsoleLogger();
+        builder.Services.Configure(configure);
+        return builder;
     }
 }
