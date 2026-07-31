@@ -48,7 +48,7 @@ public class WorkerServiceTests
     {
         // Arrange
         var currentTime = input.Date.AddSeconds(offsets.Seconds);
-        var config = CreateConfiguration(input.Time);
+        var config = CreateWorkerConfiguration(input.Time);
         _dateService.Setup(s => s.Now()).Returns(currentTime);
         _timeService.Setup(s => s.ConvertTimeValue(input.Time)).Returns(input.Date);
         var workerService = new WorkerService(

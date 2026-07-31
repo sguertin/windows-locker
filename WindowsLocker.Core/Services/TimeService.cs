@@ -1,9 +1,10 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using static WindowsLocker.Core.Constants;
 
 namespace WindowsLocker.Core.Services;
 
-public class TimeService(ILogger<TimeService> log, IDateService dateService) : ITimeService
+public class TimeService(IConfiguration configuration, IDateService dateService, ILogger<TimeService> log) : ITimeService
 {
     public DateTime ConvertTimeValue(string timeValue)
     {
@@ -49,5 +50,17 @@ public class TimeService(ILogger<TimeService> log, IDateService dateService) : I
             log.LogError(ex, "An error occurred: {Message}", ex.Message);
             throw;
         }
+    }
+
+    public int MinutesElapsed(DateTime start, DateTime end)
+    {
+        return (int)(end - start).TotalMinutes;
+    }
+
+    public int GetTimeLimit()
+    {
+        return int.TryParse(configuration["TimeLimit"] ?? DEFAULT_TIME_LIMIT.ToString(), out var timeLimit)
+            ? timeLimit
+            : DEFAULT_TIME_LIMIT;
     }
 }
