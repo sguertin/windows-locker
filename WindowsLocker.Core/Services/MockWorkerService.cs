@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace WindowsLocker.Core.Services;
 
-public class MockWorkerService(IDateService dateService, ITimeService timeService, IConfiguration configuration, ILogger<MockWorkerService> log) : IWorkerService
+public class MockWorkerService(IDateService dateService, ITimeService timeService, ILogger<MockWorkerService> log) : IWorkerService
 {
     private DateTime _timeField = dateService.Now();
     public bool DoWork()
