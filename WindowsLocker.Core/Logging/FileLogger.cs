@@ -5,7 +5,7 @@ namespace WindowsLocker.Core.Logging;
 
 public class FileLogger(string name, string logFilePath) : BaseLogger, ILogger
 {
-    private string LogFilePath => Path.Join(logFilePath, $"{APPLICATION_NAME}-{DateTime.Now:yyyy-MM-dd}.log");
+    private string LogFilePath => Path.Join(logFilePath, $"{APPLICATION_NAME}Logs-{DateTime.Now:yyyy-MM-dd}.txt");
 
     public IDisposable BeginScope<TState>(TState state) where TState : notnull
     {
@@ -31,6 +31,6 @@ public class FileLogger(string name, string logFilePath) : BaseLogger, ILogger
 
         var contents = $"[{DateTime.Now:u}][{APPLICATION_NAME}][{name}][{GetLogLevel(logLevel)}]" +
                        $"\t{formatter(state, exception)}" + Environment.NewLine;
-        File.AppendAllText(LogFilePath, contents);
+        File.AppendAllText(LogFilePath, contents); 
     }
 }
