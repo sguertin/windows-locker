@@ -8,5 +8,8 @@ public static class Constants
     public const int DEFAULT_SECOND = 0;
     public const string DEFAULT_TIME = "5:00 PM";
     public const int DEFAULT_TIME_LIMIT = 60;
-    public const string APPLICATION_NAME = "LibraryUtility";
+    public const int DEFAULT_LOG_RETENTION_DAYS = 30;
+    public const string APPLICATION_NAME = "ApplicationName";
+    public const string LOG_RETENTION = "LogFileRetentionDays";
+
 }
